@@ -28,10 +28,11 @@
                                (lambda (who path . perms)
                                  (println (format "file-guard ~a ~a ~a" who path perms))
                                  (cond
-                                   [(eq? who 'find-system-path) #t]
-                                   [(eq? who 'file-exists?) #t]
-                                   [(eq? who 'open-input-file) #t]
-                                   [(eq? who 'directory-exists?) #t]
+                                   ; it works when using: racket -y main.rkt
+                                   ;[(eq? who 'find-system-path) #t]
+                                   ;[(eq? who 'file-exists?) #t]
+                                   ;[(eq? who 'open-input-file) #t]
+                                   ;[(eq? who 'directory-exists?) #t]
                                    [else (raise (exn:fail (format "file-guard banned: ~a ~a ~a" who path perms) (current-continuation-marks)))]))
                                (lambda (who path . perms)
                                  (raise (exn:fail "network-guard" (current-continuation-marks))))
