@@ -1,0 +1,45 @@
+#lang racket/base
+(require racket/sandbox)
+
+(provide load-card-file load-card-file-2)
+
+; decripted
+(define (load-card-file file-path)
+  (define evaluator (parameterize ([sandbox-exit-handler (lambda (e) (println "err"))]
+                                   [sandbox-memory-limit 1]
+                                   ;[sandbox-error-output current-error-port]
+                                   ;[sandbox-output current-output-port]
+                                   )
+                      (make-evaluator 'racket/base' '()
+                                      #:requires (list "card.rkt")
+                                      #:allow-for-require '()
+                                      #:allow-read '()
+                                      )))
+  (define result (evaluator (read (open-input-file file-path))))
+  ;(define result (evaluator `(dynamic-require ', file-path 'c)))
+  result
+  )
+
+(require "card.rkt")
+(define-namespace-anchor a)
+(define (load-card-file-2 file-path)
+  (define c (read (open-input-file file-path)))
+  (define g (make-security-guard (current-security-guard)
+                               (lambda (who path . perms)
+                                 (println (format "file-guard ~a ~a ~a" who path perms))
+                                 (cond
+                                   [(eq? who 'find-system-path) #t]
+                                   [(eq? who 'file-exists?) #t]
+                                   [(eq? who 'open-input-file) #t]
+                                   [(eq? who 'directory-exists?) #t]
+                                   [else (raise (exn:fail (format "file-guard banned: ~a ~a ~a" who path perms) (current-continuation-marks)))]))
+                               (lambda (who path . perms)
+                                 (raise (exn:fail "network-guard" (current-continuation-marks))))
+                               ))
+  (parameterize ([current-namespace (namespace-anchor->namespace a)]
+                 [current-security-guard g]
+                 )
+    ;(load file-path)
+    (eval c)
+    ;(eval '(+ 1 1))
+    ))
