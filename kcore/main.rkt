@@ -5,6 +5,7 @@
 
 (require "card.rkt")
 (require "load_card.rkt")
+(require "field.rkt")
 
 ;; Notice
 ;; To install (from within the package directory):
@@ -49,6 +50,7 @@
     (println (chaperone? c))
     (println (impersonator? c))
     (println (card? c))
-    ;(println (card? (unbox c)))
     (println (card-name c))
+    (define f (new-field))
+    (println f)
   )
