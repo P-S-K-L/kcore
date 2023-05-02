@@ -29,7 +29,7 @@
                                  (println (format "file-guard ~a ~a ~a" who path perms))
                                  (cond
                                    ; it works when using: racket -y main.rkt
-                                   ;[(eq? who 'find-system-path) #t]
+                                   [(eq? who 'find-system-path) #t]
                                    ;[(eq? who 'file-exists?) #t]
                                    ;[(eq? who 'open-input-file) #t]
                                    ;[(eq? who 'directory-exists?) #t]
