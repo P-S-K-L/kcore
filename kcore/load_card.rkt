@@ -1,10 +1,10 @@
 #lang racket/base
 (require racket/sandbox)
 
-(provide load-card-file load-card-file-2)
+(provide load-card-file)
 
 ; decripted
-(define (load-card-file file-path)
+(define (load-card-file-2 file-path)
   (define evaluator (parameterize ([sandbox-exit-handler (lambda (e) (println "err"))]
                                    [sandbox-memory-limit 1]
                                    ;[sandbox-error-output current-error-port]
@@ -22,7 +22,7 @@
 
 (require "card.rkt")
 (define-namespace-anchor a)
-(define (load-card-file-2 file-path)
+(define (load-card-file file-path)
   (define c (read (open-input-file file-path)))
   (define g (make-security-guard (current-security-guard)
                                (lambda (who path . perms)

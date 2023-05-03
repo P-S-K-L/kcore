@@ -1,6 +1,13 @@
 #lang racket/base
 (require racket/list)
 
+(provide (struct-out area)
+         draw-area
+         push-to-top
+         push-to-bottom
+         shuffle
+         )
+
 (module+ test
   (require rackunit))
 

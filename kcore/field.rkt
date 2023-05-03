@@ -12,12 +12,12 @@
 ;; rule-enable? ex区这排只有2个格子能用，其他的在规则上不存在
 ;; game-enable? 正常的格子有时候会被关闭
 ;; 一个格子只能装1个张卡
-(struct slot (rule-enable? game-enable? owner x y card) #:transparent)
+(struct slot (enable? owner x y card) #:transparent)
 
 ;; 场上的部分
 (struct field (v) #:transparent)
 
-(define (rule-enable? x y)
+(define (slot-exist? x y)
   (match (list x y)
     [(list 0 2) #f]
     [(list 2 2) #f]
@@ -33,13 +33,13 @@
     ))
 
 (define (new-field)
-  (define v (build-vector 5 (lambda (y)
-                              (build-vector 5 (lambda (x)
-                                                (slot
-                                                  (rule-enable? x y)
-                                                  #t
-                                                  (default-owner x y)
-                                                  x
-                                                  y
-                                                  null))))))
+  (define v
+    (build-vector
+     5
+     (lambda (y)
+       (build-vector
+        5 (lambda (x)
+            (if (slot-exist? x y)
+                (slot #t (default-owner x y) x y null)
+                null))))))
   (field v))

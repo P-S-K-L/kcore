@@ -9,7 +9,9 @@
 ;; card-type, eg: 'normal-monster 'fast-magic
 (struct card (id name type effect) #:transparent)
 
-(struct effect (content) #:transparent)
+;; 暂时分成3块
+;; condition是返回
+(struct effect (condition cost action) #:transparent)
 
 ; 这个宏简单地把效果宏后面的2个元素变成字符串
 (define-syntax-parser effect-macro

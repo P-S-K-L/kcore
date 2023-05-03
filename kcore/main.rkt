@@ -6,6 +6,8 @@
 (require "card.rkt")
 (require "load_card.rkt")
 (require "field.rkt")
+(require "area.rkt")
+(require "game.rkt")
 
 ;; Notice
 ;; To install (from within the package directory):
@@ -43,14 +45,8 @@
 (module+ main
   (define argv (current-command-line-arguments))
     ; 加载脚本并且实例化卡片
-    ;(println (vector-ref argv 0))
-    ;(define c (load-card-file (vector-ref argv 0)))
-    (define c (load-card-file-2 (vector-ref argv 0)))
+    ; TODO
+    ;(define env (start-duel))
+    (define c (load-card-file (vector-ref argv 0)))
     (println c)
-    (println (chaperone? c))
-    (println (impersonator? c))
-    (println (card? c))
-    (println (card-name c))
-    (define f (new-field))
-    (println f)
   )

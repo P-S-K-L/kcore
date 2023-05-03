@@ -1,0 +1,3 @@
+(card
+    55144522 "强欲之壶" 'normal-magic
+    (effect null null (lambda (env) draw env 'me 2)))

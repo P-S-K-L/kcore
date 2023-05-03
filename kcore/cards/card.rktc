@@ -1,4 +1,0 @@
-(card
-    55144522 "强欲之壶" 'normal-magic
-    ; 测试在脚本中调用宿主定义的宏
-    (effect-macro ['draw 2]))
