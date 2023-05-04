@@ -1,7 +1,7 @@
 (begin
     ; 干坏事，写文件
     (define output-file "out.txt")
-    (with-output-to-file output-file (lambda () (displayln "hello world")))
+    (with-output-to-file output-file (λ () (displayln "hello world")))
 
     (define c
       (card

@@ -43,7 +43,8 @@
 (module+ main
   (define argv (current-command-line-arguments))
     ; playground
-    (define path (if (> 0 (vector-length argv)) (vector-ref argv 0) "./cards/55144522.rktc"))
+    (define path (if (> (vector-length argv) 0) (vector-ref argv 0) "./cards/55144522.rktc"))
+    (println (format "loading ~a" path))
     (define c (load-card-file path))
     (println c)
     (define env (start-duel))

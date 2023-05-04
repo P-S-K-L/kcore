@@ -36,9 +36,9 @@
   (define v
     (build-vector
      5
-     (lambda (y)
+     (λ (y)
        (build-vector
-        5 (lambda (x)
+        5 (λ (x)
             (if (slot-exist? x y)
                 (slot #t (default-owner x y) x y null)
                 null))))))
