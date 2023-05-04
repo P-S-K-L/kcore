@@ -21,6 +21,7 @@
   )
 
 (require "card.rkt")
+(require "action.rkt")
 (define-namespace-anchor a)
 (define (load-card-file file-path)
   (define c (read (open-input-file file-path)))
@@ -33,6 +34,7 @@
                                    ;[(eq? who 'file-exists?) #t]
                                    ;[(eq? who 'open-input-file) #t]
                                    ;[(eq? who 'directory-exists?) #t]
+                                   ;[(eq? who 'simplify-path) #t]
                                    [else (raise (exn:fail (format "file-guard banned: ~a ~a ~a" who path perms) (current-continuation-marks)))]))
                                (lambda (who path . perms)
                                  (raise (exn:fail "network-guard" (current-continuation-marks))))

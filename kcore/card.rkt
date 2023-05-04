@@ -1,10 +1,15 @@
 #lang racket/base
+(require racket/contract)
 (require (for-syntax racket/base)
          syntax/parse/define)
 
-(provide (struct-out card) (struct-out effect)
-         effect-macro
-         )
+(provide (struct-out card)
+         action)
+
+(provide (contract-out
+  (struct effect ([condition (-> any/c any)]
+                  [cost (-> any/c any)]
+                  [action (-> any/c any)]))))
 
 ;; card-type, eg: 'normal-monster 'fast-magic
 (struct card (id name type effect) #:transparent)
@@ -13,9 +18,7 @@
 ;; condition是返回
 (struct effect (condition cost action) #:transparent)
 
-; 这个宏简单地把效果宏后面的2个元素变成字符串
-(define-syntax-parser effect-macro
-  [(effect-macro [action count])
-   #'(effect (format "2: ~a ~a" action count))]
-  [(effect-macro [action])
-   #'(effect (format "1: ~a" action))])
+;; action的宏
+(define-syntax-rule (action [func param ...])
+    (λ (env)
+      (func env param ...)))

@@ -7,7 +7,7 @@
 (require "load_card.rkt")
 (require "field.rkt")
 (require "area.rkt")
-(require "game.rkt")
+(require "env.rkt")
 
 ;; Notice
 ;; To install (from within the package directory):
@@ -40,13 +40,14 @@
 
   (check-equal? (+ 2 2) 4))
 
-; start
-
 (module+ main
   (define argv (current-command-line-arguments))
-    ; 加载脚本并且实例化卡片
-    ; TODO
-    ;(define env (start-duel))
-    (define c (load-card-file (vector-ref argv 0)))
+    ; playground
+    (define path (if (> 0 (vector-length argv)) (vector-ref argv 0) "./cards/55144522.rktc"))
+    (define c (load-card-file path))
     (println c)
+    (define env (start-duel))
+    ; add two card into my deck
+    (define func (effect-action (card-effect c)))
+    (func env)
   )
