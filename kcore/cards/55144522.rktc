@@ -1,5 +1,5 @@
 (card
-    55144522 "强欲之壶" 'normal-magic
+    55144522 "强欲之壶" 'magic
     ; TODO: condition, cost macro
     ; TODO: multiple step
     (effect (λ (env) null) (λ (env) null) (action [draw 'me 2])))

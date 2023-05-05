@@ -4,22 +4,23 @@
 (provide load-card-file)
 
 ; decripted
-(define (load-card-file-2 file-path)
-  (define evaluator (parameterize ([sandbox-exit-handler (λ (e) (println "err"))]
-                                   [sandbox-memory-limit 1]
-                                   ;[sandbox-error-output current-error-port]
-                                   ;[sandbox-output current-output-port]
-                                   )
-                      (make-evaluator 'racket/base' '()
-                                      #:requires (list "card.rkt")
-                                      #:allow-for-require '()
-                                      #:allow-read '()
-                                      )))
-  (define result (evaluator (read (open-input-file file-path))))
-  ;(define result (evaluator `(dynamic-require ', file-path 'c)))
-  result
-  )
+;(define (load-card-file-2 file-path)
+;  (define evaluator (parameterize ([sandbox-exit-handler (λ (e) (println "err"))]
+;                                   [sandbox-memory-limit 1]
+;                                   ;[sandbox-error-output current-error-port]
+;                                   ;[sandbox-output current-output-port]
+;                                   )
+;                      (make-evaluator 'racket/base' '()
+;                                      #:requires (list "card.rkt")
+;                                      #:allow-for-require '()
+;                                      #:allow-read '()
+;                                      )))
+;  (define result (evaluator (read (open-input-file file-path))))
+;  ;(define result (evaluator `(dynamic-require ', file-path 'c)))
+;  result
+;  )
 
+(require "common.rkt")
 (require "card.rkt")
 (require "action.rkt")
 (define-namespace-anchor a)
@@ -31,10 +32,10 @@
                                  (cond
                                    ; it works when using: racket -y main.rkt
                                    [(eq? who 'find-system-path) #t]
-                                   ;[(eq? who 'file-exists?) #t]
-                                   ;[(eq? who 'open-input-file) #t]
-                                   ;[(eq? who 'directory-exists?) #t]
-                                   ;[(eq? who 'simplify-path) #t]
+                                   [(eq? who 'current-directory) #t]
+                                   [(eq? who 'file-exists?) #t]
+                                   [(eq? who 'resolve-path) #t]
+                                   [(eq? who 'directory-exists?) #t]
                                    [else (raise (exn:fail (format "file-guard banned: ~a ~a ~a" who path perms) (current-continuation-marks)))]))
                                (λ (who path . perms)
                                  (raise (exn:fail "network-guard" (current-continuation-marks))))

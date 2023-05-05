@@ -1,21 +1,11 @@
-#lang racket/base
+#lang typed/racket/base
 
 (require racket/match)
-(require "card.rkt")
+(require "common.rkt")
 
 (provide new-field)
 
 ; NOTE: 先用直觉的方式设计，所以格子也记录各种信息
-
-
-;; 一个格子
-;; rule-enable? ex区这排只有2个格子能用，其他的在规则上不存在
-;; game-enable? 正常的格子有时候会被关闭
-;; 一个格子只能装1个张卡
-(struct slot (enable? owner x y card) #:transparent)
-
-;; 场上的部分
-(struct field (v) #:transparent)
 
 (define (slot-exist? x y)
   (match (list x y)
@@ -25,20 +15,22 @@
     [_ #t]
     ))
 
+(: default-owner (-> Integer Integer Owner))
 (define (default-owner x y)
   (cond
     [(< y 2) 'opponent]
     [(> y 2) 'me]
-    [(= y 2) 'unknown]
+    [else 'none]
     ))
 
+(: new-field (-> field))
 (define (new-field)
   (define v
     (build-vector
      5
-     (λ (y)
+     (λ ([y : Integer])
        (build-vector
-        5 (λ (x)
+        5 (λ ([x : Integer])
             (if (slot-exist? x y)
                 (slot #t (default-owner x y) x y null)
                 null))))))

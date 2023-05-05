@@ -1,8 +1,8 @@
 #lang racket/base
 (require racket/list)
+(require "common.rkt")
 
-(provide (struct-out area)
-         draw-area!
+(provide draw-area!
          push-to-top!
          push-to-bottom!
          shuffle!
@@ -11,8 +11,6 @@
 (module+ test
   (require rackunit))
 
-;; 一个区域，内含有序的卡片列表，还有很多标签，例如'me
-(struct area (owner cards tags) #:mutable)
 
 ;; 从区域最上面获取number张卡
 (define (draw-area! area number)

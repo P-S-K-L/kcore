@@ -3,6 +3,7 @@
 (module+ test
   (require rackunit))
 
+(require "common.rkt")
 (require "card.rkt")
 (require "load_card.rkt")
 (require "field.rkt")
