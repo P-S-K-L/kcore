@@ -7,6 +7,8 @@
          (struct-out env)
          (struct-out slot)
          (struct-out field)
+         (struct-out card-state)
+         (struct-out card-instance)
          Condition
          Action
          Cost
@@ -20,8 +22,15 @@
 (define-type Person (U 'me 'opponent))
 (define-type Owner (U Person 'none))
 (define-type CardType (U 'monster 'magic 'trap))
+(define-type Face (U 'up 'down))
 
 (struct card ([id : Integer] [name : String] [type : CardType] [effect : effect]) #:transparent)
+
+; TODO more field
+(struct card-state ([face : Face]))
+
+;; 卡片实例
+(struct card-instance ([id : Integer] [state : card-state]))
 
 ;; 暂时分成3块
 ;; condition是返回

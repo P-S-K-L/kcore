@@ -44,12 +44,15 @@
 (module+ main
   (define argv (current-command-line-arguments))
     ; playground
-    (define path (if (> (vector-length argv) 0) (vector-ref argv 0) "./cards/55144522.rktc"))
-    (println (format "loading ~a" path))
-    (define c (load-card-file path))
-    (println c)
-    (define env (start-duel))
-    ; add two card into my deck
-    (define func (effect-action (card-effect c)))
-    (func env)
+    (define param0 (vector-ref argv 0))
+    (load-global-cards param0)
+    (println (hash-ref (get-card-hash) 55144522))
+    ;(define path (if (> (vector-length argv) 0) (vector-ref argv 0) "./cards/55144522.rktc"))
+    ;(println (format "loading ~a" path))
+    ;(define c (load-card-file path))
+    ;(println c)
+    ;(define env (start-duel))
+    ;; add two card into my deck
+    ;(define func (effect-action (card-effect c)))
+    ;(func env)
   )

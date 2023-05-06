@@ -21,8 +21,8 @@
 ;  )
 
 (require "common.rkt")
-(require "card.rkt")
 (require "action.rkt")
+(require "script_api.rkt")
 (define-namespace-anchor a)
 (define (load-card-file file-path)
   (define c (read (open-input-file file-path)))
