@@ -9,6 +9,8 @@
 (require "field.rkt")
 (require "area.rkt")
 (require "env.rkt")
+(require "deck.rkt")
+(require racket/file)
 
 ;; Notice
 ;; To install (from within the package directory):
@@ -45,8 +47,10 @@
   (define argv (current-command-line-arguments))
     ; playground
     (define param0 (vector-ref argv 0))
-    (load-global-cards param0)
-    (println (hash-ref (get-card-hash) 55144522))
+    (define deck (ydk->deck (file->string param0)))
+    (println deck)
+    ;(load-global-cards param0)
+    ;(println (hash-ref (get-card-hash) 55144522))
     ;(define path (if (> (vector-length argv) 0) (vector-ref argv 0) "./cards/55144522.rktc"))
     ;(println (format "loading ~a" path))
     ;(define c (load-card-file path))
