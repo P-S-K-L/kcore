@@ -1,9 +1,11 @@
 #lang typed/racket/base
 (require racket/match)
 (require racket/string)
+(require typed/json)
 
 (provide (struct-out deck)
          ydk->deck
+         json->deck
          )
 
 ;; 代表玩家的卡组
@@ -40,3 +42,18 @@
 (define (ydk->deck ydk-content)
     (ydk->deck-helper (string-split ydk-content "\n") "" "" '() '() '())
 )
+
+(: jsonexp->list (-> JSExpr (Listof Integer)))
+(define (jsonexp->list exp)
+    (cond
+      [(list? exp) (map (λ (x) (assert x exact-integer?)) exp)]
+       [else (error "not list")]))
+
+(: json->deck (-> String deck))
+(define (json->deck json-content)
+  (let* ([json-object : (HashTable Symbol JSExpr) (assert (string->jsexpr json-content) hash?)]
+         [author : String (assert (hash-ref json-object 'author) string?)]
+         [main : (Listof Integer) (jsonexp->list (hash-ref json-object 'main))]
+         [side : (Listof Integer) (jsonexp->list (hash-ref json-object 'side))]
+         [extra : (Listof Integer) (jsonexp->list (hash-ref json-object 'extra))])
+    (deck author main extra side)))

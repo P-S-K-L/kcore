@@ -47,7 +47,7 @@
   (define argv (current-command-line-arguments))
     ; playground
     (define param0 (vector-ref argv 0))
-    (define deck (ydk->deck (file->string param0)))
+    (define deck (json->deck (file->string param0)))
     (println deck)
     ;(load-global-cards param0)
     ;(println (hash-ref (get-card-hash) 55144522))
