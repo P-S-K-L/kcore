@@ -2,6 +2,7 @@
 (require racket/match)
 (require racket/string)
 (require typed/json)
+(require "json_utils.rkt")
 
 (provide (struct-out deck)
          ydk->deck
@@ -16,6 +17,7 @@
              [extra : (Listof Integer)]
              [side : (Listof Integer)])
              #:transparent)
+
 (: ydk->deck-helper (-> (Listof String) String String (Listof Integer) (Listof Integer) (Listof Integer) deck))
 (define (ydk->deck-helper lines seg author main extra side)
   (match lines
@@ -43,17 +45,11 @@
     (ydk->deck-helper (string-split ydk-content "\n") "" "" '() '() '())
 )
 
-(: jsonexp->list (-> JSExpr (Listof Integer)))
-(define (jsonexp->list exp)
-    (cond
-      [(list? exp) (map (λ (x) (assert x exact-integer?)) exp)]
-       [else (error "not list")]))
-
 (: json->deck (-> String deck))
 (define (json->deck json-content)
   (let* ([json-object : (HashTable Symbol JSExpr) (assert (string->jsexpr json-content) hash?)]
          [author : String (assert (hash-ref json-object 'author) string?)]
-         [main : (Listof Integer) (jsonexp->list (hash-ref json-object 'main))]
-         [side : (Listof Integer) (jsonexp->list (hash-ref json-object 'side))]
-         [extra : (Listof Integer) (jsonexp->list (hash-ref json-object 'extra))])
+         [main : (Listof Integer) (jsonexp->idlist (hash-ref json-object 'main))]
+         [side : (Listof Integer) (jsonexp->idlist (hash-ref json-object 'side))]
+         [extra : (Listof Integer) (jsonexp->idlist (hash-ref json-object 'extra))])
     (deck author main extra side)))

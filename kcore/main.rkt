@@ -10,6 +10,7 @@
 (require "area.rkt")
 (require "env.rkt")
 (require "deck.rkt")
+(require "forbidden_limited.rkt")
 (require racket/file)
 
 ;; Notice
@@ -47,8 +48,9 @@
   (define argv (current-command-line-arguments))
     ; playground
     (define param0 (vector-ref argv 0))
-    (define deck (json->deck (file->string param0)))
-    (println deck)
+    (define lf (load-forbidden-limit-config param0))
+    ;(define deck (json->deck (file->string param0)))
+    (println lf)
     ;(load-global-cards param0)
     ;(println (hash-ref (get-card-hash) 55144522))
     ;(define path (if (> (vector-length argv) 0) (vector-ref argv 0) "./cards/55144522.rktc"))
